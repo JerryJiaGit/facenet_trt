@@ -24,17 +24,17 @@ TensorFlow: tensorflow-gpu 1.12
 # Result
 Face detection with MTCNN: test 36 times with different image at different resolution
 
-original network: avg 40.767637 ms	
+-original network: avg 40.767637 ms	
 
-tensorrt network FP32 : avg 41.520069 ms
+-tensorrt network FP32 : avg 41.520069 ms
 
-tensorrt network FP16 : avg 40.84842 ms
+-tensorrt network FP16 : avg 40.84842 ms
 
 Face indentify with Inception-ResNet-v1
 : test 27 times with different image (crop and alignment 160x160)
 
-original network: avg 13.713258 ms	
+-original network: avg 13.713258 ms	
 
-tensorrt network FP32 : avg 	11.296281	ms
+-tensorrt network FP32 : avg 	11.296281	ms
 
-tensorrt network FP16 : avg 10.54711 ms
+-tensorrt network FP16 : avg 10.54711 ms
