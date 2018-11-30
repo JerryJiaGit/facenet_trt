@@ -1,3 +1,6 @@
+# Jerry Jia [11/29/2018] Enabled TRT4 support on SavedModel modified based on https://github.com/davidsandberg/facenet 9852362  on Apr 8
+# Jerry Jia [11/30/2018] Enabled TRT4 support on ckpt
+
 """Functions for building the face recognition network.
 """
 # MIT License
@@ -373,11 +376,11 @@ def load_model(model, input_map=None):
             graph_def = tf.GraphDef()
             graph_def.ParseFromString(f.read())
             #JJia TensorRT enable
-            print('TensorRT Enabled', 2<<20)
+            print('TensorRT Enabled', 2 << 20)
             trt_graph = trt.create_inference_graph(input_graph_def=graph_def,
             outputs=['embeddings:0'],
             max_batch_size = 128, 
-            max_workspace_size_bytes=2 << 20, # 2GB mem assgined to TRT
+            max_workspace_size_bytes= 2 << 20, # 2GB mem assgined to TRT
             precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
             minimum_segment_size=1
             )
@@ -393,21 +396,24 @@ def load_model(model, input_map=None):
       
         saver = tf.train.import_meta_graph(os.path.join(model_exp, meta_file), input_map=input_map)
         saver.restore(tf.get_default_session(), os.path.join(model_exp, ckpt_file))
-##        #JJia TensorRT for ckpt file, not work yet
-##        frozen_graph = tf.graph_util.convert_variables_to_constants(
-##            tf.get_default_session(),
-##            tf.get_default_graph().as_graph_def(),
-##            output_node_names=["tftnode"])
-##        trt_graph = trt.create_inference_graph(
-##            input_graph_def=frozen_graph,
-##            outputs=["embeddings:0"],
-##            max_batch_size = 1,
-##            max_workspace_size_bytes=2 << 20,
-##            precision_mode="FP16",                                       
-##            minimum_segment_size=1)
-##        # Import the TensorRT graph into a new graph and run:
-##        ##tf.import_graph_def(trt_graph, input_map=input_map, name='')
-##        tf.import_graph_def(trt_graph,return_elements=["tftnode"])
+        #JJia TensorRT enable
+        print('TensorRT Enabled', 2<<20)
+        for node in frozen_graph.node:
+          if node.op == 'RefSwitch':
+            node.op = 'Switch'
+            #for index in range(len(node.input)):
+            #  node.input[index] = node.input[index] + '/read'
+          elif node.op == 'AssignSub':
+            node.op = 'Sub'
+            if 'use_locking' in node.attr: del node.attr['use_locking']
+        trt_graph = trt.create_inference_graph(
+            input_graph_def=frozen_graph,
+            outputs=["embeddings"],
+            max_batch_size = 1,
+            max_workspace_size_bytes= 2 << 20,
+            precision_mode="FP16",                                       
+            minimum_segment_size=1)
+        tf.import_graph_def(trt_graph,return_elements=["embeddings:0"])
     
 def get_model_filenames(model_dir):
     files = os.listdir(model_dir)
