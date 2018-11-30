@@ -1,3 +1,5 @@
+# Jerry Jia [11/30/2018] Enabled threshold of probobility, change to use 20180402-114759-CASIA-WebFace//20180402-114759.pb SavedModel and set GPU gpu_memory_fraction = 0.4
+
 # coding=utf-8
 """Face Detection and Recognition"""
 # MIT License
