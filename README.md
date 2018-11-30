@@ -1,11 +1,22 @@
 # facenet_trt
 NVIDIA TensorRT implementation for facenet with pre-train SavedModel.
-facenet is a project from 
+facenet is a project from https://github.com/davidsandberg/facenet to do face recognition with tensorflow.
 
 # Changes 
 1. facenet.py: Enable facenet pre-train SavedModel with TRT
-2. face.py: Use pre-train SavedModel instead of ckpt file and add threshold of probobility for return
+2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.4 and 
+3. /align/detect_face.py: Enable TensorRT for PNET, RNET and ONET graph
 
 # TensorRT and setup
+TensorRT introduction:
 https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
+
+Setup:
+HW: GV100 PCIE graphic and intel x86_64
+OS: Ubuntu 16.04
+Driver: 384.111
+CUDA: 9.0.179
+cuDNN:7.3.1.20
+TensorRT:4.0.1.6
+TensorFlow: tensorflow-gpu 1.12
