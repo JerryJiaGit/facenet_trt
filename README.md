@@ -4,7 +4,7 @@ facenet is a project from https://github.com/davidsandberg/facenet to do face re
 
 # Changes 
 1. facenet.py: Enable facenet pre-train SavedModel with TRT
-2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.4 and 
+2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.4 
 3. /align/detect_face.py: Enable TensorRT for PNET, RNET and ONET graph
 
 # TensorRT and setup
@@ -20,3 +20,15 @@ CUDA: 9.0.179
 cuDNN:7.3.1.20
 TensorRT:4.0.1.6
 TensorFlow: tensorflow-gpu 1.12
+
+# Result
+Face detection with MTCNN: test 36 times with different image at different resolution
+original network: avg 40.767637 ms	
+tensorrt network FP32 : avg 41.520069 ms
+tensorrt network FP16 : avg 40.84842 ms
+
+Face indentify with Inception-ResNet-v1
+: test 27 times with different image (crop and alignment 160x160)
+original network: avg 13.713258 ms	
+tensorrt network FP32 : avg 	11.296281	ms
+tensorrt network FP16 : avg 10.54711 ms
