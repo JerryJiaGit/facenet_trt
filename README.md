@@ -14,11 +14,17 @@ https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
 
 Setup:
 HW: GV100 PCIE graphic and intel x86_64
+
 OS: Ubuntu 16.04
+
 Driver: 384.111
+
 CUDA: 9.0.179
+
 cuDNN:7.3.1.20
+
 TensorRT:4.0.1.6
+
 TensorFlow: tensorflow-gpu 1.12
 
 # Result
