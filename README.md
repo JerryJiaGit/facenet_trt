@@ -7,12 +7,12 @@ facenet is a project from https://github.com/davidsandberg/facenet to do face re
 2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.4 
 3. /align/detect_face.py: Enable TensorRT for PNET, RNET and ONET graph
 
-# TensorRT and setup
-TensorRT introduction:
+# TensorRT introduction:
 https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
+
 https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
 
-Setup:
+# Setup:
 HW: GV100 PCIE graphic and intel x86_64
 
 OS: Ubuntu 16.04
