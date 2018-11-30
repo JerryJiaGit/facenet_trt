@@ -23,6 +23,7 @@ TensorFlow: tensorflow-gpu 1.12
 
 # Result
 Face detection with MTCNN: test 30 times with different image at different resolution
+
 | Detect Network      | Avg Time |
 |-----------------|--------------|
 | original network | 41.948318 ms |
@@ -31,6 +32,7 @@ Face detection with MTCNN: test 30 times with different image at different resol
 
 Face identify with Inception-ResNet-v1
 : test 27 times with different image (crop and alignment 160x160)
+
 | Identify Network      | Avg Time |
 |-----------------|--------------|
 | original network | 13.713258 ms |
