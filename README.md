@@ -10,13 +10,15 @@ facenet is a project from https://github.com/davidsandberg/facenet to do face re
 # TensorRT introduction
 "NVIDIA announced the integration of our TensorRT inference optimization tool with TensorFlow. TensorRT integration will be available for use in the TensorFlow 1.7 branch. TensorFlow remains the most popular deep learning framework today while NVIDIA TensorRT speeds up deep learning inference through optimizations and high-performance runtimes for GPU-based platforms. We wish to give TensorFlow users the highest inference performance possible along with a near transparent workflow using TensorRT. The new integration provides a simple API which applies powerful FP16 and INT8 optimizations using TensorRT from within TensorFlow. TensorRT sped up TensorFlow inference by 8x for low latency runs of the ResNet-50 benchmark." - from NVIDIA website. 
 
-Latest TensorRT version is 5.0.2.6.
+Latest TensorRT version is 5.0.4.
 
 See details from below links:
 
 https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 
 https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
+
+See documents for support matrix: https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html
 
 # Setup
 HW: GV100 PCIE graphic and intel x86_64
