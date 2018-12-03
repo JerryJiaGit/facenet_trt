@@ -1,5 +1,6 @@
 # Jerry Jia [11/29/2018] Enabled TRT4 support on SavedModel modified based on https://github.com/davidsandberg/facenet 9852362  on Apr 8
 # Jerry Jia [11/30/2018] Enabled TRT4 support on ckpt
+# Jerry Jia [12/03/2018] Fixed one problem in load model from ckpt function due to code clean issue. Added frozen_graph back. 
 
 """Functions for building the face recognition network.
 """
@@ -398,6 +399,10 @@ def load_model(model, input_map=None):
         saver.restore(tf.get_default_session(), os.path.join(model_exp, ckpt_file))
         #JJia TensorRT enable
         print('TensorRT Enabled', 2<<20)
+        frozen_graph = tf.graph_util.convert_variables_to_constants(
+            tf.get_default_session(),
+            tf.get_default_graph().as_graph_def(),
+            output_node_names=["embeddings"])
         for node in frozen_graph.node:
           if node.op == 'RefSwitch':
             node.op = 'Switch'
