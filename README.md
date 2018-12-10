@@ -20,6 +20,9 @@ https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
 
 See documents for support matrix: https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html
 
+# Usage
+Download facenet.py, face.py (optional), /align/detect_face.py and replace original files.
+
 # Setup
 HW: GV100 PCIE graphic and intel x86_64
 
