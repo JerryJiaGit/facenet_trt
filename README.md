@@ -6,6 +6,7 @@ facenet is a project from https://github.com/davidsandberg/facenet to do face re
 1. facenet.py: Enable facenet pre-train SavedModel with TRT
 2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.4 
 3. /align/detect_face.py: Enable TensorRT for PNET, RNET and ONET graph
+4. face.py and facenet.py: Minor change to support multi-thread
 
 # TensorRT introduction
 "NVIDIA announced the integration of our TensorRT inference optimization tool with TensorFlow. TensorRT integration will be available for use in the TensorFlow 1.7 branch. TensorFlow remains the most popular deep learning framework today while NVIDIA TensorRT speeds up deep learning inference through optimizations and high-performance runtimes for GPU-based platforms. We wish to give TensorFlow users the highest inference performance possible along with a near transparent workflow using TensorRT. The new integration provides a simple API which applies powerful FP16 and INT8 optimizations using TensorRT from within TensorFlow. TensorRT sped up TensorFlow inference by 8x for low latency runs of the ResNet-50 benchmark." - from NVIDIA website. 
