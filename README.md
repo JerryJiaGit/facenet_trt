@@ -48,7 +48,7 @@ Face detection with MTCNN: test 30 times with different image at different resol
 | tensorrt network FP32  | 41.948318 ms |
 | tensorrt network FP16  | 42.028268 ms |
 
-*Note: suspect MTCNN network is not converted to TensorRT network automatically, will investage more and try plugin later.
+*Note: suspect MTCNN network is not converted to TensorRT network automatically, will investage more and try plugin later. And also, I found there is no improvement with checkpoints file, so that means we may not get imporvement with similar method for MTCNN graph convert. Suspected this is some bug in TRT, still working on it.
 
 Face identify with Inception-ResNet-v1
 : test 27 times with different image (crop and alignment 160x160)
