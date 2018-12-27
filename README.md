@@ -60,3 +60,4 @@ Face identify with Inception-ResNet-v1
 | tensorrt network FP16  | 10.54711 ms |
 
 *Note: INT8 not implemented due to some issues which may same as https://github.com/tensorflow/tensorflow/issues/22854
+*Note: The result is based on savedmodel file, for checkpoints frozen graph, has no runtime improvement, that may be a bug, still working on it.
