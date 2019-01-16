@@ -39,6 +39,24 @@ TensorRT:4.0.1.6
 
 TensorFlow: tensorflow-gpu 1.12
 
+Code also works on Jetson Xavier, but no runtime improvement, still working on issue debug
+
+HW: Xavier with internal GPU
+
+OS: Ubuntu 18.04
+
+Driver: L4T 4.1.1
+
+CUDA: 10.0.117
+
+cuDNN:7.3.1
+
+TensorRT:5.0.3
+
+TensorFlow: tensorflow-gpu 1.12
+
+
+
 # Result
 Face detection with MTCNN: test 30 times with different image at different resolution
 
