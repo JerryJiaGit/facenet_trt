@@ -83,4 +83,7 @@ Face identify with Inception-ResNet-v1
 *Note: The result is based on savedmodel file, for checkpoints frozen graph, has no runtime improvement, that may be a bug, still working on it.
 
 TensorRT 5 result
-Similar to TRT4 but the runtime improvement with savedmodel is about 10% on GV100. 
+Similar to TRT4 but the runtime improvement with savedmodel is about 11.89% on GV100. 
+
+TensorRT 5 on Xavier result
+Similar to TRT4 but the runtime improvement with savedmodel is about 23.15% on Xavier.
