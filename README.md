@@ -58,6 +58,8 @@ TensorFlow: tensorflow-gpu 1.12
 
 
 # Result
+TensorRT 4 result
+
 Face detection with MTCNN: test 30 times with different image at different resolution
 
 | Detect Network      | Avg Time |
@@ -79,3 +81,6 @@ Face identify with Inception-ResNet-v1
 
 *Note: INT8 not implemented due to some issues which may same as https://github.com/tensorflow/tensorflow/issues/22854
 *Note: The result is based on savedmodel file, for checkpoints frozen graph, has no runtime improvement, that may be a bug, still working on it.
+
+TensorRT 5 result
+Similar to TRT4 but the runtime improvement with savedmodel is about 10% on GV100. 
