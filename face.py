@@ -1,4 +1,5 @@
 # Jerry Jia [11/30/2018] Enabled threshold of probobility, change to use 20180402-114759-CASIA-WebFace//20180402-114759.pb SavedModel and set GPU gpu_memory_fraction = 0.4
+# Jerry Jia [01/21/2019] Changed input:0 to batch_join:0 for embedding and set GPU gpu_memory_fraction = 0.3
 
 # coding=utf-8
 """Face Detection and Recognition"""
@@ -49,7 +50,7 @@ classifier_model = os.path.dirname(__file__) + "//my_classifier_180731.pkl"
 
 debug = False
 name_threshold = 0.00001 # threshold of probability return
-gpu_memory_fraction = 0.4
+gpu_memory_fraction = 0.3
 
 class Face:
     def __init__(self):
@@ -126,7 +127,7 @@ class Encoder:
 
     def generate_embedding(self, face):
         # Get input and output tensors
-        images_placeholder = self.sess.graph.get_tensor_by_name("input:0")
+        images_placeholder = self.sess.graph.get_tensor_by_name("batch_join:0") #jjia changed 2018/01/21
         embeddings = self.sess.graph.get_tensor_by_name("embeddings:0")
         phase_train_placeholder = self.sess.graph.get_tensor_by_name("phase_train:0")
 
