@@ -22,6 +22,8 @@ https://docs.nvidia.com/deeplearning/dgx/integrate-tf-trt/index.html
 
 See documents for support matrix: https://docs.nvidia.com/deeplearning/sdk/tensorrt-archived/index.html
 
+TRT Installation document: https://developer.download.nvidia.com/compute/machine-learning/tensorrt/docs/5.0/GA_5.0.2.6/TensorRT-Installation-Guide.pdf
+
 # Usage
 Download facenet.py, face.py (optional), /align/detect_face.py and replace original files.
 
