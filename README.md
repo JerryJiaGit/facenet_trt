@@ -105,6 +105,7 @@ Similar to TRT4 but the runtime improvement with savedmodel is about 11.89% on G
 
 TensorRT 5 on Xavier result
 Similar to TRT4 but the runtime improvement with savedmodel is about 23.15% on Xavier: test 20 times with same image (crop and alignment 160x160, except of first long init one)
+
 | Identify Network      | Avg Time |
 |-----------------------------------|-----------------------------------|
 | original network ckpt | 45.034961 ms |
