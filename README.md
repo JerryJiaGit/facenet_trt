@@ -81,8 +81,8 @@ TensorRT 4 result
 Face detection with MTCNN: test 30 times with different image at different resolution
 
 | Detect Network      | Avg Time |
-|-----------------|--------------|
-| original network | 41.948318 ms |
+|------------------------|------------------------|
+| original network ckpt | 41.948318 ms |
 | tensorrt network FP32  | 41.948318 ms |
 | tensorrt network FP16  | 42.028268 ms |
 
@@ -92,8 +92,8 @@ Face identify with Inception-ResNet-v1
 : test 27 times with different image (crop and alignment 160x160)
 
 | Identify Network      | Avg Time |
-|-----------------|--------------|
-| original network | 13.713258 ms |
+|------------------------|------------------------|
+| original network ckpt | 13.713258 ms |
 | tensorrt network FP32  | 11.296281 ms |
 | tensorrt network FP16  | 10.54711 ms |
 
@@ -104,4 +104,10 @@ TensorRT 5 result
 Similar to TRT4 but the runtime improvement with savedmodel is about 11.89% on GV100. 
 
 TensorRT 5 on Xavier result
-Similar to TRT4 but the runtime improvement with savedmodel is about 23.15% on Xavier.
+Similar to TRT4 but the runtime improvement with savedmodel is about 23.15% on Xavier: test 20 times with same image (crop and alignment 160x160, except of first long init one)
+| Identify Network      | Avg Time |
+|-----------------------------------|-----------------------------------|
+| original network ckpt | 45.034961 ms |
+| tensorrt network savedmodel FP16  | 37.567716 ms |
+
+![](TRT_Runtime_Compare_Result.png?raw=true)
