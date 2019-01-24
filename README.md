@@ -76,6 +76,10 @@ TensorFlow: tensorflow-gpu 1.12
 
 
 # Result
+
+![](TRT_Runtime_Compare_Result.png?raw=true)
+
+
 TensorRT 4 result
 
 Face detection with MTCNN: test 30 times with different image at different resolution
@@ -111,4 +115,4 @@ Similar to TRT4 but the runtime improvement with savedmodel is about 23.15% on X
 | original network ckpt | 45.034961 ms |
 | tensorrt network savedmodel FP16  | 37.567716 ms |
 
-![](TRT_Runtime_Compare_Result.png?raw=true)
+
