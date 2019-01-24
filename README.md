@@ -28,52 +28,12 @@ TRT Installation document: https://developer.download.nvidia.com/compute/machine
 Download facenet.py, face.py (optional), /align/detect_face.py and replace original files.
 
 # Setup
-HW: GV100 PCIE graphic and intel x86_64
 
-OS: Ubuntu 16.04
-
-Driver: 384.111
-
-CUDA: 9.0.179
-
-cuDNN:7.3.1.20
-
-TensorRT:4.0.1.6
-
-TensorFlow: tensorflow-gpu 1.12
-
-
-Code also works on Jetson Xavier
-
-HW: Xavier with internal GPU
-
-OS: Ubuntu 18.04
-
-Driver: L4T 4.1.1
-
-CUDA: 10.0.117
-
-cuDNN:7.3.1
-
-TensorRT:5.0.3
-
-TensorFlow: tensorflow-gpu 1.12
-
-
-HW: x86 with Quadro V100 GPU
-
-OS: Ubuntu 18.04
-
-Driver: 410.93
-
-CUDA: 10.0.117
-
-cuDNN:7.3.1
-
-TensorRT:5.0.3
-
-TensorFlow: tensorflow-gpu 1.12
-
+| HW | Ubuntu | Driver | CUDA | cuDNN | TensorRT | TensorFlow |
+|-------------------------------------|--------|----------|---------|----------|---------|--------|
+| Tesla V100 graphic and intel x86_64 | 16.04 | 384.111 | 9.0.179 | 7.3.1 | 4.0.1.6 | 1.12 gpu |
+| Quadro V100 graphic and intel x86_64 | 18.04 | 410.93 | 10.0.117 | 7.3.1 | 5.0.3 | 1.12 gpu |
+| Jetson Xavier with internal GV10B GPU | 18.04 | L4T 4.1.1 | 10.0.117 | 7.3.1| 5.0.3 | 1.12 gpu |
 
 # Result
 
