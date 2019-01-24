@@ -79,6 +79,7 @@ TensorFlow: tensorflow-gpu 1.12
 
 ![](TRT_Runtime_Compare_Result.png?raw=true)
 
+*Note: this table is only for face identify inception-resnet v1 network savedmodel runtime improvement compare. Xavier is Jetson Xavier with L4T 4.1.1.
 
 TensorRT 4 result
 
