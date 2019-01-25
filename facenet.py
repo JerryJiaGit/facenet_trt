@@ -1,7 +1,8 @@
 # Jerry Jia [11/29/2018] Enabled TRT4 support on SavedModel modified based on https://github.com/davidsandberg/facenet 9852362  on Apr 8
 # Jerry Jia [11/30/2018] Enabled TRT4 support on ckpt
 # Jerry Jia [12/03/2018] Fixed one problem in load model from ckpt function due to code clean issue. Added frozen_graph back. 
-# Jerry Jia [01/21/2019] Change SavedModel max_batch_size=1 same as Ckpt, changed workspace mem to 1GB (1<<20)
+# Jerry Jia [01/21/2019] Changed SavedModel max_batch_size=1 same as Ckpt, changed workspace mem to 1GB (1<<20)
+# Jerry Jia [01/25/2019] Changed load_model() to return a graph, instead of doing tf.import_graph_def. Because ckpt/meta graph after convert_variables_to_constants needs to restart sess for TensorRT convert.
 
 """Functions for building the face recognition network.
 """
@@ -386,8 +387,9 @@ def load_model(model, input_map=None):
             precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
             minimum_segment_size=1
             )
-            #trt_graph=trt.calib_graph_to_infer_graph(trt_graph)
-            tf.import_graph_def(trt_graph, input_map=input_map, name='')
+            ##trt_graph=trt.calib_graph_to_infer_graph(trt_graph)
+            #tf.import_graph_def(trt_graph, input_map=input_map, name='')
+            return trt_graph        #"return graph_def" for trt disable, "return trt_graph" for trt enable
 
     else:
         print('Model directory: %s' % model_exp)
@@ -407,8 +409,6 @@ def load_model(model, input_map=None):
         for node in frozen_graph.node:
           if node.op == 'RefSwitch':
             node.op = 'Switch'
-            #for index in range(len(node.input)):
-            #  node.input[index] = node.input[index] + '/read'
           elif node.op == 'AssignSub':
             node.op = 'Sub'
             if 'use_locking' in node.attr: del node.attr['use_locking']
@@ -419,7 +419,8 @@ def load_model(model, input_map=None):
             max_workspace_size_bytes= 1 << 20,
             precision_mode="FP16",                                       
             minimum_segment_size=1)
-        tf.import_graph_def(trt_graph,return_elements=["embeddings:0"])
+        #tf.import_graph_def(trt_graph,return_elements=["embeddings:0"])
+        return trt_graph        #"return frozen_graph" for trt disable, "return trt_graph" for trt enable
     
 def get_model_filenames(model_dir):
     files = os.listdir(model_dir)

@@ -1,5 +1,6 @@
 # Jerry Jia [11/30/2018] Enabled threshold of probobility, change to use 20180402-114759-CASIA-WebFace//20180402-114759.pb SavedModel and set GPU gpu_memory_fraction = 0.4
 # Jerry Jia [01/21/2019] Changed input:0 to batch_join:0 for embedding and set GPU gpu_memory_fraction = 0.3
+# Jerry Jia [01/25/2019] Added workaround to fix ckpt/meta graph runtime improvement issue which is caused by convert_variables_to_constants() not able to update graph again, so restart sess as a workaround. Thanks for NVIDIA engr for some help on sample code.
 
 # coding=utf-8
 """Face Detection and Recognition"""
@@ -119,11 +120,13 @@ class Identifier:
 class Encoder:
     def __init__(self):
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
-        #gpu_options = tf.GPUOptions(allow_growth=True)
-        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
-        #sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
+        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False)) #allow_growth=True, to do growth mem allocation 
         with self.sess.as_default():
-            facenet.load_model(facenet_model_checkpoint)
+            graph_load = facenet.load_model(facenet_model_checkpoint)
+        self.sess.close()
+        tf.reset_default_graph()
+        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))        
+        tf.import_graph_def(graph_load, input_map=None, name='')
 
     def generate_embedding(self, face):
         # Get input and output tensors
