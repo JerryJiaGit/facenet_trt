@@ -1,4 +1,5 @@
 # Jerry Jia [11/30/2018] Enable TensorRT4 for MTCNN pnet,rnet and onet
+# Jerry Jia [01/27/2019] Changed MTCNN create function for a workaround of convert_variables_to_constants() no update with TRT graph
 """ Tensorflow implementation of the face detection / alignment algorithm found at
 https://github.com/kpzhang93/MTCNN_face_detection_alignment
 """
