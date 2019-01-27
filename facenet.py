@@ -3,6 +3,7 @@
 # Jerry Jia [12/03/2018] Fixed one problem in load model from ckpt function due to code clean issue. Added frozen_graph back. 
 # Jerry Jia [01/21/2019] Changed SavedModel max_batch_size=1 same as Ckpt, changed workspace mem to 1GB (1<<20)
 # Jerry Jia [01/25/2019] Changed load_model() to return a graph, instead of doing tf.import_graph_def. Because ckpt/meta graph after convert_variables_to_constants needs to restart sess for TensorRT convert.
+# Jerry Jia [01/27/2019] Changed trt workspace to 500000000
 
 """Functions for building the face recognition network.
 """
@@ -379,11 +380,11 @@ def load_model(model, input_map=None):
             graph_def = tf.GraphDef()
             graph_def.ParseFromString(f.read())
             #JJia TensorRT enable
-            print('TensorRT Enabled', 1 << 20)
+            print('TensorRT Enabled')
             trt_graph = trt.create_inference_graph(input_graph_def=graph_def,
             outputs=['embeddings:0'],
             max_batch_size = 1, 
-            max_workspace_size_bytes= 1 << 20, # 2GB mem assgined to TRT
+            max_workspace_size_bytes= 500000000, # 500MB mem assgined to TRT
             precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
             minimum_segment_size=1
             )
