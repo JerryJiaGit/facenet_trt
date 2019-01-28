@@ -5,7 +5,7 @@ facenet is a project from https://github.com/davidsandberg/facenet to do face re
 # Changes 
 1. facenet.py: Enable facenet pre-train SavedModel with TRT
 2. face.py: Add threshold of probobility for return, change minimum size of face to 50px, change gpu_memory_fraction to 0.3 
-3. /align/detect_face.py: Enable TensorRT for PNET, RNET and ONET graph
+3. /align/detect_face.py: Enable TensorRT for PNET only, keep RNET and ONET graph same as before due to batch size warning
 4. face.py and facenet.py: Minor change to support multi-thread
 5. face.py: Change input:0 to batch_join:0 to support both TensorRT4 and TensorRT5
 
