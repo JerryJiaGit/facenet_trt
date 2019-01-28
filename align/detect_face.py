@@ -1,5 +1,6 @@
-# Jerry Jia [11/30/2018] Enable TensorRT4 for MTCNN pnet,rnet and onet
+# Jerry Jia [11/30/2018] Enabled TensorRT4 for MTCNN pnet,rnet and onet
 # Jerry Jia [01/27/2019] Changed MTCNN create function for a workaround of convert_variables_to_constants() no update with TRT graph
+# Jerry Jia [01/28/2019] Disabled rnet/onet TRT due to batch warning
 """ Tensorflow implementation of the face detection / alignment algorithm found at
 https://github.com/kpzhang93/MTCNN_face_detection_alignment
 """
@@ -307,30 +308,30 @@ def create_mtcnn(sess, model_path):
         rnet = RNet({'data':data_rnet})
         rnet.load(os.path.join(model_path, 'det2.npy'), sess)
         #jjia enable TRT
-        print("Rnet TensorRT enabled")
+##        print("Rnet TensorRT enabled")
         frozen_rnet_graph = convert_variables_to_constants(sess, sess.graph_def, ['rnet/conv5-2/conv5-2','rnet/prob1'])
-        trt_rnet_graph = trt.create_inference_graph(input_graph_def=frozen_rnet_graph,
-        outputs=['rnet/conv5-2/conv5-2:0','rnet/prob1:0'],
-        max_batch_size = 128, 
-        max_workspace_size_bytes=500000000, # 500Mb mem assgined to TRT
-        precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
-        minimum_segment_size=1
-        )
+##        trt_rnet_graph = trt.create_inference_graph(input_graph_def=frozen_rnet_graph,
+##        outputs=['rnet/conv5-2/conv5-2:0','rnet/prob1:0'],
+##        max_batch_size = 128, 
+##        max_workspace_size_bytes=500000000, # 500Mb mem assgined to TRT
+##        precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
+##        minimum_segment_size=1
+##        )
         
     with tf.variable_scope('onet'):
         data_onet = tf.placeholder(tf.float32, (None,48,48,3), 'input')
         onet = ONet({'data':data_onet})
         onet.load(os.path.join(model_path, 'det3.npy'), sess)
         #jjia enable TRT
-        print("Onet TensorRT enabled")
+##        print("Onet TensorRT enabled")
         frozen_onet_graph = convert_variables_to_constants(sess, sess.graph_def, ['onet/conv6-2/conv6-2', 'onet/conv6-3/conv6-3', 'onet/prob1'])
-        trt_onet_graph = trt.create_inference_graph(input_graph_def=frozen_onet_graph,
-        outputs=['onet/conv6-2/conv6-2:0', 'onet/conv6-3/conv6-3:0', 'onet/prob1:0'],
-        max_batch_size = 128, 
-        max_workspace_size_bytes=500000000, # 1GB mem assgined to TRT
-        precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
-        minimum_segment_size=1
-        )
+##        trt_onet_graph = trt.create_inference_graph(input_graph_def=frozen_onet_graph,
+##        outputs=['onet/conv6-2/conv6-2:0', 'onet/conv6-3/conv6-3:0', 'onet/prob1:0'],
+##        max_batch_size = 128, 
+##        max_workspace_size_bytes=500000000, # 1GB mem assgined to TRT
+##        precision_mode="FP16",  # Precision "FP32","FP16" or "INT8"                                        
+##        minimum_segment_size=1
+##        )
 
     sess.close()
     #tf.reset_default_graph()
@@ -340,8 +341,8 @@ def create_mtcnn(sess, model_path):
             #for node in frozen_pnet_graph.node:
             #    print("[NODE] ",  node.name, node.op)
             tf.import_graph_def(trt_pnet_graph,input_map=None, name='') # import frozen_pnet_graph to disable trt
-            tf.import_graph_def(trt_rnet_graph,input_map=None, name='') # import frozen_rnet_graph to disable trt
-            tf.import_graph_def(trt_onet_graph,input_map=None, name='') # import frozen_onet_graph to disable trt
+            tf.import_graph_def(frozen_rnet_graph,input_map=None, name='') # import frozen_rnet_graph to disable trt
+            tf.import_graph_def(frozen_onet_graph,input_map=None, name='') # import frozen_onet_graph to disable trt
             pnet_fun = lambda img : sess.run(('pnet/conv4-2/BiasAdd:0', 'pnet/prob1:0'), feed_dict={'pnet/input:0':img})
             rnet_fun = lambda img : sess.run(('rnet/conv5-2/conv5-2:0', 'rnet/prob1:0'), feed_dict={'rnet/input:0':img})
             onet_fun = lambda img : sess.run(('onet/conv6-2/conv6-2:0', 'onet/conv6-3/conv6-3:0', 'onet/prob1:0'), feed_dict={'onet/input:0':img})
