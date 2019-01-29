@@ -51,7 +51,7 @@ Face detection with MTCNN: test 30 times with different image at different resol
 | tensorrt network FP32  | 41.948318 ms |
 | tensorrt network FP16  | 42.028268 ms |
 
-*Note: suspect MTCNN network is not converted to TensorRT network automatically, will investage more and try plugin later. And also, I found there is no improvement with checkpoints file, so that means we may not get imporvement with similar method for MTCNN graph convert. Suspected this is some bug in TRT, still working on it.
+*Note: suspect MTCNN network is not converted to TensorRT network automatically, will investage more and try plugin later. And due to batch mis-match warning, only enabled pnet TRT convert right now.
 
 Face identify with Inception-ResNet-v1
 : test 27 times with different image (crop and alignment 160x160)
@@ -63,7 +63,7 @@ Face identify with Inception-ResNet-v1
 | tensorrt network FP16  | 10.54711 ms |
 
 *Note: INT8 not implemented due to some issues which may same as https://github.com/tensorflow/tensorflow/issues/22854
-*Note: The result is based on savedmodel file, for checkpoints frozen graph, has no runtime improvement, that may be a bug, still working on it.
+*Note: The result is based on savedmodel file, for checkpoints frozen graph, it has similar result.
 
 TensorRT 5 result
 Similar to TRT4 but the runtime improvement with savedmodel is about 11.89% on GV100. 
