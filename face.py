@@ -1,6 +1,7 @@
 # Jerry Jia [11/30/2018] Enabled threshold of probobility, change to use 20180402-114759-CASIA-WebFace//20180402-114759.pb SavedModel and set GPU gpu_memory_fraction = 0.4
 # Jerry Jia [01/21/2019] Changed input:0 to batch_join:0 for embedding and set GPU gpu_memory_fraction = 0.3
 # Jerry Jia [01/25/2019] Added workaround to fix ckpt/meta graph runtime improvement issue which is caused by convert_variables_to_constants() not able to update graph again, so restart sess as a workaround. Thanks for NVIDIA engr for some help on sample code.
+# Jerry Jia [01/30/2019] Added code for TRT INT8 calib process if INT8ENABLE=True, still have bug "nvinfer1::DimsCHW nvinfer1::getCHW(const nvinfer1::Dims): Assertion `d.nbDims >= 3' failed"
 
 # coding=utf-8
 """Face Detection and Recognition"""
@@ -94,7 +95,7 @@ class Recognition:
             face.name = self.identifier.identify(face)
             if debug:
                 print("finish identify in face.py")
-        #if debug:print("indentify,"+ str(time.time() - start_time))
+        if debug:print("identify,"+ str(time.time() - start_time))
         return faces
 
 
@@ -106,11 +107,10 @@ class Identifier:
     def identify(self, face):
         if face.embedding is not None:
             predictions = self.model.predict_proba([face.embedding])
-            
             best_class_indices = np.argmax(predictions, axis=1)
             best_class_probabilities = predictions[np.arange(len(best_class_indices)), best_class_indices]
             if best_class_probabilities > name_threshold:
-                #if debug:print (self.class_names[best_class_indices[0]],best_class_probabilities)
+                if debug:print (self.class_names[best_class_indices[0]],best_class_probabilities)
                 return self.class_names[best_class_indices[0]]
             else:
                 return None
@@ -119,14 +119,30 @@ class Identifier:
 
 class Encoder:
     def __init__(self):
+        INT8ENABLE = False
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
         self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False)) #allow_growth=True, to do growth mem allocation 
         with self.sess.as_default():
             graph_load = facenet.load_model(facenet_model_checkpoint)
         self.sess.close()
         tf.reset_default_graph()
-        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))        
+        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
+        ##      #For INT8 calib
+        if INT8ENABLE:
+            print("TensorRT INT8 Enabled and Running INT8 Calib")
+            input_map = np.random.random_sample((1,160,160,3))
+            inc=tf.constant(input_map, dtype=tf.float32)
+            dataset=tf.data.Dataset.from_tensors(inc)
+            dataset=dataset.repeat()
+            iterator=dataset.make_one_shot_iterator()
+            next_element=iterator.get_next()
+            out=tf.import_graph_def(graph_load, input_map={"input":next_element, "phase_train": False}, return_elements=[ "embeddings"])
+            self.sess.run(out)
+            graph_load=trt.calib_graph_to_infer_graph(graph_load)
+            #for node in trt_int8_graph.node:print("[NODE] ",  node.name, node.op)
+            #for op in sess.graph.get_operations():print("[OP] ", op.name)
         tf.import_graph_def(graph_load, input_map=None, name='')
+
 
     def generate_embedding(self, face):
         # Get input and output tensors
@@ -189,5 +205,5 @@ class Detection:
             face.image = misc.imresize(cropped, (self.face_crop_size, self.face_crop_size), interp='bilinear')
 
             faces.append(face)
-        #if debug:print("Detect_face," + str(time.time() - start_time))
+        if debug:print("detect," + str(time.time() - start_time))
         return faces
