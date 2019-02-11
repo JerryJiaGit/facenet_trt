@@ -64,6 +64,7 @@ Face identify with Inception-ResNet-v1
 | tensorrt network FP16  | 10.54711 ms |
 
 *Note: INT8 not implemented due to calib issues "nvinfer1::DimsCHW nvinfer1::getCHW(const nvinfer1::Dims): Assertion `d.nbDims >= 3' failed", it is was caused by TRT4, with new TRT5, there is no such problem, but still have other issues, see "issues" for more detailed.
+
 *Note: The result is based on savedmodel file, for checkpoints frozen graph, it has similar result.
 
 TensorRT 5 result
