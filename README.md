@@ -26,7 +26,9 @@ See documents for support matrix: https://docs.nvidia.com/deeplearning/sdk/tenso
 TRT Installation document: https://developer.download.nvidia.com/compute/machine-learning/tensorrt/docs/5.0/GA_5.0.2.6/TensorRT-Installation-Guide.pdf
 
 # Usage
-Download facenet.py, face.py (optional), /align/detect_face.py and replace original files.
+1. Get GPU cuda/cudnn, tensorflow-gpu and TensorRT ready
+2. Get facenet ready with https://github.com/davidsandberg/facenet ready
+3. Download here facenet.py, face.py (optional), /align/detect_face.py and replace original files.
 
 # Setup
 
